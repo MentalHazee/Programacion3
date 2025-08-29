@@ -24,8 +24,10 @@ public class test {
         //------------------------------------------------
 
         //TP2:
-        //Crea varios cursos
+        //Crea un curso
         Curso estructura = new Curso(" Estructuras de Datos");
+
+        //Agrega estudiantes al curso
         estructura.agregarEstudiante(juan);
         estructura.agregarEstudiante(maria);
         estructura.agregarEstudiante(pedro);
