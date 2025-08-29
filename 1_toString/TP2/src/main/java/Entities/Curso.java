@@ -1,10 +1,15 @@
 package Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Curso {
     private String nombre;
-    private List<Estudiante> listaDeEstudiantes;
+    private List<Estudiante> listaDeEstudiantes = null;
+
+    public Curso(String nombre) {
+        this.nombre = nombre;
+    }
 
     public Curso(String nombre, List<Estudiante> listaDeEstudiantes) {
         this.nombre = nombre;
@@ -25,6 +30,13 @@ public class Curso {
 
     public void setListaDeEstudiantes(List<Estudiante> listaDeEstudiantes) {
         this.listaDeEstudiantes = listaDeEstudiantes;
+    }
+
+    public void agregarEstudiante(Estudiante estudiante){
+        if (this.listaDeEstudiantes == null) {
+            this.listaDeEstudiantes = new ArrayList();
+        }
+        this.listaDeEstudiantes.add(estudiante);
     }
 
     @Override

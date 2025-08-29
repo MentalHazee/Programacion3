@@ -1,22 +1,36 @@
 package Test;
 
+import Entities.Curso;
 import Entities.Estudiante;
 import java.util.*;
 
 public class test {
     public static void main(String[] args) {
-        // 1. Crear varios objetos Estudiante
-        Estudiante estudiante1 = new Estudiante("Juan", 20, "Ingeniería en Sistemas");
-        Estudiante estudiante2 = new Estudiante("María", 22, "Diseño Gráfico");
-        Estudiante estudiante3 = new Estudiante("Pedro", 21, "Medicina");
+        //TP1:
+        // 1. Crea varios objetos Estudiante
+        Estudiante juan = new Estudiante("Juan", 20, "Ingeniería en Sistemas");
+        Estudiante maria = new Estudiante("María", 22, "Diseño Gráfico");
+        Estudiante pedro = new Estudiante("Pedro", 21, "Medicina");
 
-        // 2. Almacenarlos en una lista
+        // 2. Almacena los estudiantes en una lista
         List<Estudiante> listaEstudiantes = new ArrayList<>();
-        listaEstudiantes.add(estudiante1);
-        listaEstudiantes.add(estudiante2);
-        listaEstudiantes.add(estudiante3);
+        listaEstudiantes.add(juan);
+        listaEstudiantes.add(maria);
+        listaEstudiantes.add(pedro);
 
-        // 3. Mostrar la lista, que ahora usará el toString() que definiste
-        System.out.println(listaEstudiantes);
+        // 3. Muestra la lista
+        //System.out.println(listaEstudiantes);
+
+        //------------------------------------------------
+
+        //TP2:
+        //Crea varios cursos
+        Curso estructura = new Curso(" Estructuras de Datos");
+        estructura.agregarEstudiante(juan);
+        estructura.agregarEstudiante(maria);
+        estructura.agregarEstudiante(pedro);
+
+        //Muestra a los estudiantes de ese curso
+        System.out.println(estructura);
     }
 }

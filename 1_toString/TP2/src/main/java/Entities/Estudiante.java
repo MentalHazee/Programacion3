@@ -1,6 +1,5 @@
 package Entities;
 
-
 public class Estudiante extends Persona {
     private String carrera;
 
@@ -19,8 +18,7 @@ public class Estudiante extends Persona {
 
     @Override
     public String toString() {
-        return "Estudiante{" +
-                "carrera='" + carrera + '\'' +
-                '}';
+        return "Estudiante: " + super.toString() +
+                "carrera='" + carrera + '\n';
     }
 }
