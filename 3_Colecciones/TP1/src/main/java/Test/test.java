@@ -11,13 +11,15 @@ public class test {
         Alumno lucas = new Alumno("Lucas Orton", 8.5);
         Alumno german = new Alumno("German Marinaga", 5.0);
         Alumno emmanuel = new Alumno("Manu Crespoide", 9.5);
-        Alumno ignacio = new Alumno("Nacho Navarra", 7.0);
+        Alumno ignacio = new Alumno("Nacho Navegador", 7.0);
 
         listaAlumnos.add(lucas);
         listaAlumnos.add(german);
         listaAlumnos.add(ignacio);
         listaAlumnos.add(emmanuel);
 
-        
+        for(Alumno rAlumno : listaAlumnos){
+            System.out.println(rAlumno);
+        }
     }
 }
