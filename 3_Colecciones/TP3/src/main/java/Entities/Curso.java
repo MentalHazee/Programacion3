@@ -29,7 +29,7 @@ public class Curso {
 
     @Override
     public String toString() {
-        return "Curso: " + nombre +
-                ", docente: " + docente;
+        return nombre +
+                " con el docente " + docente;
     }
 }
