@@ -14,4 +14,7 @@ import lombok.experimental.SuperBuilder;
 
 public class HistoriaClinica extends Base{
     private String descripcion;
+
+    @OneToOne
+    private Paciente paciente;
 }
