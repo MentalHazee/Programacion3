@@ -17,10 +17,10 @@ public class App {
         EntityManager em = emf.createEntityManager();
 
         //Elimina los regsitros de la tabla especificada (NO SE USA)
-        /*em.getTransaction().begin();
+        em.getTransaction().begin();
         em.createQuery("DELETE FROM Medico").executeUpdate();
         em.createQuery("DELETE FROM Paciente").executeUpdate();
-        em.getTransaction().commit();*/
+        em.getTransaction().commit();
 
         //Persiste al menos 3 pacientes
         em.getTransaction().begin();
@@ -35,6 +35,7 @@ public class App {
                 .sexo('M')
                 .build();
 
+        em.persist(ron);
         em.getTransaction().commit();
 
         //Persiste al menos 2 medicos
@@ -67,7 +68,7 @@ public class App {
         medicos.forEach(p -> System.out.println(p.toString()));
 
         List<Paciente> pacientes = em.createQuery("SELECT p FROM Paciente p", Paciente.class).getResultList();
-        pacientes.forEach(p -> System.out.println(p.toString())); //----------------------> PORQUE NO MUESTRA LOS PACIENTES
+        pacientes.forEach(p -> System.out.println(p.toString()));
 
         em.getTransaction().commit();
 
