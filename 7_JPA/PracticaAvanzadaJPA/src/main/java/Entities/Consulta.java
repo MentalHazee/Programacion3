@@ -13,14 +13,17 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+@ToString
 
 public class Consulta extends Base {
     private LocalDate fecha;
     private String diagnostico;
 
     @ManyToOne
+    @JoinColumn(name = "PACIENTE_ID")
     private Paciente paciente;
 
     @ManyToOne
+    @JoinColumn(name = "MEDICO_ID")
     private Medico medico;
 }
