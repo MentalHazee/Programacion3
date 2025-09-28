@@ -19,7 +19,7 @@ public class App {
 
 
         //Persiste al menos 3 pacientes
-        /*em.getTransaction().begin();
+        em.getTransaction().begin();
 
         Paciente ron = Paciente.builder()
                 .nombre("Ronald")
@@ -179,7 +179,7 @@ public class App {
         em.persist(daenerys);
         em.persist(constantine);
 
-        em.getTransaction().commit();*/
+        em.getTransaction().commit();
 
 
         //3. Listar todos los pacientes mayores de 30 años
