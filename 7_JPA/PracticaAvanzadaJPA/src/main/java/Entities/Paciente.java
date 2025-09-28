@@ -33,6 +33,6 @@ public class Paciente extends Base{
     @Builder.Default
     private List<Medicamento> medicamentos = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL)
     private HistoriaClinica historiaClinica;
 }

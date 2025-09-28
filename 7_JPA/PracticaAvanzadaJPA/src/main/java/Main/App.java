@@ -11,10 +11,12 @@ import jakarta.persistence.Persistence;
 
 
 public class App {
+
     public static void main(String[] args) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidad");
         EntityManager em = emf.createEntityManager();
+
 
         //Persiste al menos 3 pacientes
         /*em.getTransaction().begin();
@@ -76,6 +78,7 @@ public class App {
 
         em.getTransaction().commit();
 
+
         //Persiste 4 consultas
         em.getTransaction().begin();
         Consulta daenerysConsulta = Consulta.builder()
@@ -84,7 +87,9 @@ public class App {
                 .paciente(daenerys)
                 .medico(strange)
                 .build();
+        strange.getConsultas().add(daenerysConsulta);
         em.persist(daenerysConsulta);
+        em.persist(strange);
 
         Consulta constantineConsulta = Consulta.builder()
                 .fecha(LocalDate.of(2025, 8, 07))
@@ -92,7 +97,9 @@ public class App {
                 .paciente(constantine)
                 .medico(house)
                 .build();
+        house.getConsultas().add(constantineConsulta);
         em.persist(constantineConsulta);
+        em.persist(house);
 
         Consulta ronConsulta = Consulta.builder()
                 .fecha(LocalDate.of(2025, 9, 13))
@@ -100,7 +107,9 @@ public class App {
                 .paciente(ron)
                 .medico(house)
                 .build();
+        house.getConsultas().add(ronConsulta);
         em.persist(ronConsulta);
+        em.persist(house);
 
         Consulta ronConsulta2 = Consulta.builder()
                 .fecha(LocalDate.of(2025, 3, 02))
@@ -108,7 +117,9 @@ public class App {
                 .paciente(ron)
                 .medico(house)
                 .build();
+        house.getConsultas().add(ronConsulta2);
         em.persist(ronConsulta2);
+        em.persist(house);
 
         em.getTransaction().commit();
 
@@ -127,6 +138,7 @@ public class App {
         em.persist(daenerysHC);
 
         em.getTransaction().commit();
+
 
         //Persistir 3 medicamentos
         em.getTransaction().begin();
@@ -150,6 +162,7 @@ public class App {
                 .pesoEnGramos(20)
                 .build();
         em.persist(losec);
+
 
         //Asigno medicamentos a pacientes
         ron.getMedicamentos().add(losec);
@@ -186,7 +199,10 @@ public class App {
                 .setParameter("nombre", "Gregory")
                 .getResultList();
         System.out.println("\nLas consultas del Dr House son: ");
-        consulasMedicosEsp.forEach(c -> System.out.println(c));
+        consulasMedicosEsp.forEach(c ->
+                System.out.println(c.getId() + " - " + c.getDiagnostico() + " - " +
+                        (c.getMedico() != null ? c.getMedico().getNombre() : "Sin medico"))
+        );
         em.getTransaction().commit();
 
 
@@ -203,24 +219,55 @@ public class App {
 
         //6. Listar las consultas con su diagnóstico y el nombre del paciente
         em.getTransaction().begin();
-
+        List<Object[]> listaDeConsultas = em.createQuery(
+                "SELECT c.diagnostico, c.paciente.nombre FROM Consulta c", Object[].class).getResultList();
+        System.out.print("\n");
+        listaDeConsultas.forEach(c -> System.out.println(c[0] + " - " + c[1]));
         em.getTransaction().commit();
 
 
         //7. Calcular el promedio de edad de los pacientes.
+        em.getTransaction().begin();
+        Double promedioEdad = em.createQuery("SELECT AVG(p.edad) FROM Paciente p", Double.class).getSingleResult();
+        System.out.println("\nEl promedio de edad de los pacientes es: " + promedioEdad);
+        em.getTransaction().commit();
+
+
         //8. Listar todos los pacientes que tienen una obra social específica.
+        em.getTransaction().begin();
+        List<Paciente> pacientesConHM = em.createQuery("SELECT p FROM Paciente p WHERE p.obraSocial = :obraSocial", Paciente.class)
+                .setParameter("obraSocial", "Hell Medical")
+                .getResultList();
+        System.out.print("\n");
+        pacientesConHM.forEach(p -> System.out.println(p.getNombre() + " " + p.getApellido() + ": " + p.getObraSocial()));
+        em.getTransaction().commit();
+
+
         //9. Mostrar los médicos y la cantidad de consultas que atendieron.
+        em.getTransaction().begin();
+        List<Medico> listaMedicos = em.createQuery("SELECT m FROM Medico m", Medico.class).getResultList();
+        System.out.print("\n");
+        listaMedicos.forEach(m -> {
+            int cantidadConsultas = m.getConsultas() != null ? m.getConsultas().size() : 0;
+            System.out.println(m.getNombre() + m.getApellido() + " atendio " + cantidadConsultas + " consultas");
+        });
+        em.getTransaction().commit();
+
+
         //10. Obtener todos los pacientes junto con la descripción de su historia clínica.
+        em.getTransaction().begin();
+        List<Paciente> listaPacientesHC = em.createQuery("SELECT p FROM Paciente p", Paciente.class).getResultList();
+        System.out.print("\n");
+        listaPacientesHC.forEach(p -> {
+            System.out.print(p.getNombre() + " " + p.getApellido());
+            if (p.getHistoriaClinica() != null) {
+                System.out.println(" es: " + p.getHistoriaClinica().getDescripcion());
+            } else {
+                System.out.println(" no tiene historia clínica registrada.");
+            }
+        });
+        em.getTransaction().commit();
 
-
-        //Limpia la BD (NO USAR PARA ELIMINAR, YA QUE SE USA EL FALSE)
-        /*em.getTransaction().begin();
-        em.createQuery("DELETE FROM Consulta").executeUpdate();
-        em.createQuery("DELETE FROM HistoriaClinica").executeUpdate();
-        //em.createQuery("DELETE FROM Medicamento").executeUpdate();
-        em.createQuery("DELETE FROM Medico").executeUpdate();
-        em.createQuery("DELETE FROM Paciente").executeUpdate();
-        em.getTransaction().commit();*/
 
         em.close();
         emf.close();
