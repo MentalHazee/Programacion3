@@ -268,7 +268,6 @@ public class App {
         });
         em.getTransaction().commit();
 
-
         em.close();
         emf.close();
 
