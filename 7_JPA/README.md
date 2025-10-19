@@ -45,6 +45,7 @@ Spring
     │                       └── MiProyectoApplicationTests.java  # Pruebas unitarias
     └── target/                   # (Se genera al compilar, no se toca)
 
+
     Otra configuración es el de application.properties dentro de resources:
 
     spring.datasource.driver-class-name=org.postgresql.Driver              # Driver JDBC para PostgreSQL
