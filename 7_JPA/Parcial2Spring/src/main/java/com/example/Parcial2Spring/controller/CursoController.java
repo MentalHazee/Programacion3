@@ -1,13 +1,7 @@
 package com.example.Parcial2Spring.controller;
 
 import com.example.Parcial2Spring.entities.Curso;
-import com.example.Parcial2Spring.entities.Estudiante;
-import com.example.Parcial2Spring.entities.Profesor;
-import com.example.Parcial2Spring.entities.dto.CursoDto;
 import com.example.Parcial2Spring.service.CursoService;
-import com.example.Parcial2Spring.service.EstudianteService;
-import com.example.Parcial2Spring.service.ProfesorService;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,17 +11,11 @@ import java.util.Set;
 @RequestMapping("/api/cursos")
 
 public class CursoController {
-    private final CursoService cursoService;
-    private final EstudianteService estudianteService;
-    private final ProfesorService profesorService;
+   private final CursoService cursoService;
 
-    public CursoController(CursoService cursoService,
-                           EstudianteService estudianteService,
-                           ProfesorService profesorService) {
-        this.cursoService = cursoService;
-        this.estudianteService = estudianteService;
-        this.profesorService = profesorService;
-    }
+   public CursoController(CursoService cursoService) {
+       this.cursoService = cursoService;
+   }
 
     @GetMapping
     public List<Curso> listAll() {
@@ -35,35 +23,13 @@ public class CursoController {
     }
 
     @PostMapping
-    public Curso create(@RequestBody CursoDto dto){
-        Profesor profesor = profesorService.findById(dto.getProfesorId())
-                .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
-
-        Curso curso = new Curso();
-        curso.setNombre(dto.getNombre());
-        curso.setProfesor(profesor);
-
-        return cursoService.save(curso);
+    public Curso create(@RequestBody Curso c) {
+        return cursoService.save(c);
     }
 
-    @PostMapping("/{cursoId}/assign-estudiantes")
-    public Curso assignEstudiantes(@PathVariable Long cursoId, @RequestBody List<Long> estudianteIds){
-        Curso curso = cursoService.findById(cursoId)
-                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
-
-        for (Long estudianteId : estudianteIds) {
-            Estudiante estudiante = estudianteService.findById(estudianteId)
-                    .orElseThrow(() -> new RuntimeException("Estudiante no encontrado: " + estudianteId));
-            curso.getEstudiantes().add(estudiante);
-        }
-
-        return cursoService.save(curso);
-    }
-
-    @GetMapping("/{cursoId}/estudiantes")
-    public Set<Estudiante> getEstudiantes(@PathVariable Long cursoId) {
-        Curso curso = cursoService.findById(cursoId)
-                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
-        return curso.getEstudiantes();
+    // Asignar estudiante a un curso
+    @PostMapping("/{courseId}/students/{studentId}")
+    public Curso assignStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
+        return cursoService.assignEstudianteToCurso(courseId, studentId);
     }
 }
