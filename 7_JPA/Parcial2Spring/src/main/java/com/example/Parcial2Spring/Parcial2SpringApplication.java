@@ -9,9 +9,6 @@ public class Parcial2SpringApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Parcial2SpringApplication.class, args);
-		Estudiante est = Estudiante.builder()
-				.nombre("Jose")
-				.build();
 	}
 
 }
