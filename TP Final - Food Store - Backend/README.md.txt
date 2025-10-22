@@ -1,0 +1,2 @@
+- Crear DTO personalizados para cada una de las secciones
+- La contraseña del usuario debe ser encriptada con el video que paso el profe. Tiene que ser el encriptada ANTES de ser guardada en la BD

@@ -1,11 +1,9 @@
 package com.example.Parcial2Spring.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,6 +20,5 @@ public class Estudiante {
     private String matricula;
 
     @ManyToMany(mappedBy = "estudiantes")
-    @JsonBackReference
-    private Set<Curso> cursos = new HashSet<>();
+    private Set<Curso> cursos;
 }
